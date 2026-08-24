@@ -1,0 +1,64 @@
+QMainWindow {
+    background: #3c434f;
+}
+
+QLabel {
+    background-color: #252a33;
+    font-family: "Pixel Operator";
+    font-size: 25px;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+QPushButton {
+    background: #252a33;
+    color: white;
+    font-family: "Pixel Operator";
+    font-size: 25px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+QPushButton:hover {
+    background: #747f91;
+    color: black;
+}
+
+QDial {
+    background: #2e3942;
+}
+
+#preview {
+    border: 2px solid #bacede;
+    border-radius: 10px;
+    background: black;
+}
+
+#rgbPanel {
+    border: 2px solid #bacede;
+    border-radius: 12px;
+}
+
+#buttonPanel {
+    border: 2px solid #bacede;
+    border-radius: 12px;
+}
+
+#colorPicker {
+    background: #3c434f;
+}
+
+#colorPicker QSpinBox {
+    background-color: #2e3942;
+    border: 2px solid #bacede;
+    color: #ffffff;
+}
+
+QColorDialog#colorPicker QLineEdit {
+    background-color: #2e3942;
+    color: #ffffff;
+    border: 1px solid #bacede;
+    border-radius: 4px;
+    padding: 4px;
+}
