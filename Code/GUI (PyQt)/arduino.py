@@ -13,46 +13,85 @@ class ArduinoController:
         ports = serial.tools.list_ports.comports()
         available_ports = [p.device for p in ports]
 
-        # if already connected, check if still present
+        # Already connected
         if self.arduino is not None:
-            if self.port_name not in available_ports:
-                try:
-                    self.arduino.close()
-                except:
-                    pass
-                self.arduino = None
-                self.port_name = None
-                self.ready = False
-                return False
-            return True
+            if (self.arduino.is_open and self.port_name in available_ports):
+                return True
 
-        # try connecting to any available port
+            # Connection lost
+            try:
+                self.arduino.close()
+            except:
+                pass
+
+            self.arduino = None
+            self.port_name = None
+            self.ready = False
+
+        # Scaning ports
         for port in ports:
             try:
-                self.ready = False
+                arduino = serial.Serial(port=port.device, baudrate=9600, timeout=0.2, write_timeout=0.2)
 
-                arduino = serial.Serial(port.device, 9600, timeout = 1)
-
+                # microcontroller resets when serial connection opens
                 time.sleep(2)
+
                 arduino.reset_input_buffer()
                 arduino.reset_output_buffer()
 
-                self.arduino = arduino
-                self.port_name = port.device
-                self.ready = True
-                return True
+                # Ask Arduino to identify itself
+                arduino.write(b"PING\n")
 
-            except serial.SerialException:
+                response = arduino.readline().decode("ascii", errors="ignore").strip()
+
+                if response == "PONG":
+                    self.arduino = arduino
+                    self.port_name = port.device
+                    self.ready = True
+
+                    print(f"Arduino connected on {port.device}")
+
+                    return True
+
+                # Not our Arduino :(
+                arduino.close()
+
+            except (serial.SerialException, OSError):
                 continue
 
         return False
 
+       
+
     def set_color(self, r, g, b):
         if not self.ready or not self.arduino:
             return
-
-        cmd = f"COLOR:{r},{g},{b}\n"
-        try:
-            self.arduino.write(cmd.encode())
-        except:
+        if not self.arduino.is_open:
             self.ready = False
+            return
+
+        command = f"COLOR:{r},{g},{b}\n"
+
+        try:
+            self.arduino.write(command.encode("ascii"))
+        except (serial.SerialException, OSError):
+            self.ready = False
+            try:
+                self.arduino.close()
+            except:
+                pass
+
+            self.arduino = None
+            self.port_name = None
+            
+    def disconnect(self):
+        if self.arduino is not None:
+            try:
+                self.arduino.close()
+            except:
+                pass
+
+        self.arduino = None
+        self.port_name = None
+        self.ready = False
+    
