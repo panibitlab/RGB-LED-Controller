@@ -50,10 +50,6 @@ The PyQt5 application provides the user interface and handles:
 * Serial-port detection
 * Sending RGB values to the Arduino
 
-<p align="center">
-  <img src="gifs/GUI.gif" width="50%">
-</p>
-
 ### Arduino
 
 The Arduino receives RGB values through the serial connection and controls the LED using PWM. The basic communication flow is:
@@ -82,9 +78,39 @@ The RGB LED is controlled using three PWM-capable Arduino pins.
 | 🟢 Green |         `5` |
 | 🔵 Blue  |         `6` |
 
+
+## 📼 Demo
+
+### ON and OFF Buttons
+
 <p align="center">
-  <img src="gifs/RGB.gif" width="50%">
+  <img src="gifs/on_off.gif" width="50%">
 </p>
+
+### Dials
+
+<p align="center">
+  <img src="gifs/dials.gif" width="50%">
+</p>
+
+### Random Button
+
+<p align="center">
+  <img src="gifs/random.gif" width="50%">
+</p>
+
+### Color Picker Button
+
+<p align="center">
+  <img src="gifs/color_picker.gif" width="50%">
+</p>
+
+### Dance Button
+
+<p align="center">
+  <img src="gifs/dance.gif" width="50%">
+</p>
+
 
 ## ✨ Author & License
 
